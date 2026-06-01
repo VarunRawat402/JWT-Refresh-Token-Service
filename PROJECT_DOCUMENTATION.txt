@@ -1,8 +1,8 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------
 JWT + Refresh Token Service:
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
 Signup():
-→ For User Creation
 → Creates user
 → Returns JWT + refresh token
 
@@ -15,13 +15,13 @@ Input
   → designation: String
 
 Flow
-Step 1: Call `userService.signupUser(userInfoDto)`
-Step 2: Check result
+1: Call `userService.signupUser(userInfoDto)`
+2: Check result
   → false: username already exists, return error
   → true: proceed
-Step 3: Create refresh token
-Step 4: Create JWT token
-Step 5: Return JWT + refresh token
+3: Create refresh token
+4: Create JWT token
+5: Return JWT + refresh token
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -36,13 +36,13 @@ Input
   → password: String
 
 Flow
-Step 1: Call `AuthenticationManager.authenticate()` with username + password
-Step 2: Check result
+1: Call `AuthenticationManager.authenticate()` with username + password
+2: Check result
   → fail: Spring Security throws `AuthenticationException`
   → pass: proceed
-Step 3: Create refresh token
-Step 4: Create JWT token
-Step 5: Return JWT + refresh token
+3: Create refresh token
+4: Create JWT token
+5: Return JWT + refresh token
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -55,20 +55,17 @@ Input
 → Refresh Token
 
 Flow
-Step 1: Fetch token using `refreshTokenService.findByToken()`
-Step 2: Check result
+1: Fetch token using `refreshTokenService.findByToken()`
+2: Check result
   → not found: throw `RuntimeException`
   → found: proceed
-Step 3: Verify expiry using `refreshTokenService.verifyExpiration()`
+3: Verify expiry using `refreshTokenService.verifyExpiration()`
   → expired: service deletes token and throws exception
   → valid: proceed
-Step 4: Read linked user from token entity
+4: Read linked user from token entity
   → user is null: throw `RuntimeException`
-Step 5: Create new JWT token
-Step 6: Return new JWT token + old refresh token
-
---------------------------------------------------------------------------------------------------------------------------------------------------
-
+5: Create new JWT token
+6: Return new JWT token + old refresh token
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
 POSTMAN HIT API DOCUMENTATION
@@ -77,15 +74,6 @@ POSTMAN HIT API DOCUMENTATION
 1) SIGNUP API
 Endpoint
 → POST /auth/v1/signup
-
-What it takes
-→ Content-Type: application/json
-→ Body fields:
-  → username (String)
-  → password (String)
-  → name (String)
-  → age (String)
-  → designation (String)
 
 JSON format data to send
 {
@@ -102,12 +90,6 @@ JSON format data to send
 Endpoint
 → POST /auth/v1/login
 
-What it takes
-→ Content-Type: application/json
-→ Body fields:
-  → username (String)
-  → password (String)
-
 JSON format data to send
 {
   "username": "varun",
@@ -119,11 +101,6 @@ JSON format data to send
 3) REFRESH TOKEN API
 Endpoint
 → POST /auth/v1/refreshToken
-
-What it takes
-→ Content-Type: application/json
-→ Body fields:
-  → token (String, refresh token from signup/login response)
 
 JSON format data to send
 {
